@@ -1,0 +1,10 @@
+@(message: String) @main("Welcome to the radar panel") {
+
+<h1>Radar Panel</h1>
+<canvas id="radarCanvas" width="1000" height="800">
+</canvas>
+<button id="full">Full</button>
+<script src="@routes.Assets.at("javascripts/src/label.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/lib/screenfull.min.js")" type="text/javascript"></script>
+<script src="@routes.Assets.at("javascripts/lib/createjs-2013.12.12.min.js")" type="text/javascript"></script>
+}
