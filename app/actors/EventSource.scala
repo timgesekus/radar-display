@@ -51,7 +51,7 @@ class EventSource(name: String) extends Actor {
 }
 
 object EventSource {
- def props(name: String): Props = Props(classOf[EventSource], name)
+  def props(name: String): Props = Props(classOf[EventSource], name)
   val eventSource = Akka.system().actorOf(props("hello"))
- 
+
 }

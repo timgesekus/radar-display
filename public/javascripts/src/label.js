@@ -12,7 +12,8 @@ $(function() {
 			if (service.ws) {
 				return;
 			}
-			var websocketUrl = jsRoutes.controllers.Events.events().webSocketURL();
+			var websocketUrl = jsRoutes.controllers.Events.events()
+					.webSocketURL();
 			var ws = new WebSocket(websocketUrl);
 
 			ws.onopen = function() {
@@ -51,11 +52,13 @@ $(function() {
 		Label.prototype.Container_initialize = p.initialize;
 		Label.prototype.initialize = function(callsign, wtc) {
 			this.Container_initialize();
-			var callSignText = new createjs.Text(callsign, "12px Courier", "#FFFFF");
+			var callSignText = new createjs.Text(callsign, "12px Courier",
+					"#FFFFF");
 			var wtcText = new createjs.Text(wtc, "12px Courier", "#FFFFF");
 			wtcText.x = 90;
 			this.addChild(callSignText);
 			this.addChild(wtcText);
+			//this.cache(0, 0, 90, 30)
 		};
 
 		window.Label = Label;
@@ -63,27 +66,34 @@ $(function() {
 
 	var myService = eventService();
 	var labels = {};
-	
+
 	myService.subscribe(function(event) {
 		var labelModel = event.content;
+		console.log(event.name);
 		if (event.name == "Add") {
-			label = new Label(labelModel.values["CALLSIGN"].value, labelModel.values["WTC"].value);
+			label = new Label(labelModel.values["CALLSIGN"].value,
+					labelModel.values["WTC"].value);
 			label.x = labelModel.x;
 			label.y = labelModel.y;
 			stage.addChild(label);
-			console.log("Added");
-			labels[labelModel.id]=label;
+			// console.log("Added");
+			labels[labelModel.id] = label;
 		}
 		if (event.name == "Update") {
 			var label = labels[labelModel.id];
 			label.x = labelModel.x;
 			label.y = labelModel.y;
-			console.log("Updated");
+			// console.log("Updated");
 		}
-	
-		stage.update();
 
 	});
 	myService.connect();
+	function tick() {
+		stage.clear();
+		stage.update();
+	}
+	
+	createjs.Ticker.setFPS(30);
+	createjs.Ticker.addEventListener("tick", tick);
 	stage.update();
 });
